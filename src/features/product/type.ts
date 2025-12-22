@@ -19,4 +19,39 @@ interface Data {
   updatedAt: string;
 }
 
-export type { ProductResponse };
+interface ColumnData {
+  dataKey: keyof Data;
+  label: string;
+  numeric?: boolean;
+  width?: number;
+  render?: (row: Data) => React.ReactNode;
+}
+
+interface ProductTableProps {
+  product: Data[];
+  loading: boolean;
+  value: string;
+  onChange: (value: string) => void;
+}
+
+interface ProductHeaderTableProps {
+  columns: ColumnData[];
+  value: string;
+  onChange: (value: string) => void;
+}
+
+interface GetProductParams {
+  search?: string;
+  sortBy?: string;
+  orderBy?: "asc" | "desc";
+  page?: number;
+  limit?: number;
+}
+export type {
+  ProductResponse,
+  ColumnData,
+  Data,
+  ProductTableProps,
+  ProductHeaderTableProps,
+  GetProductParams,
+};

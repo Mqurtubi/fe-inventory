@@ -1,9 +1,9 @@
 import type { JSX } from "react";
 
-interface ProtectedType{
-    children:JSX.Element,
-    role:Role[]
+interface ProtectedType {
+  children: JSX.Element;
+  roles: Role[];
 }
-type Role = "ADMIN" | "STAFF" | "VIEWER"
+type Role = "ADMIN" | "STAFF" | "VIEWER";
 
-export type {ProtectedType}
+export type { ProtectedType };

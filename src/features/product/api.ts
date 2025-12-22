@@ -1,7 +1,9 @@
 import { http } from "../../services/http";
-import type { ProductResponse } from "./type";
+import type { ProductResponse, GetProductParams } from "./type";
 
-const getProduct = () => {
-  return http.get<ProductResponse>("/product");
+const getProducts = (params?: GetProductParams) => {
+  return http.get<{ data: ProductResponse }>("/product", {
+    params,
+  });
 };
-export { getProduct };
+export { getProducts };
