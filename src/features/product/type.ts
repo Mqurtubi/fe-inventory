@@ -19,10 +19,18 @@ interface Data {
   updatedAt: string;
 }
 
-type CellValue = string | number | boolean | null | undefined
+type CellValue = string | number | boolean | null | undefined;
 
 interface ColumnData {
-  id: "sku" | "name" | "description" | "price" | "isActive" | "currentStock" | "createdAt" | "updatedAt";
+  id:
+    | "sku"
+    | "name"
+    | "description"
+    | "price"
+    | "isActive"
+    | "currentStock"
+    | "createdAt"
+    | "updatedAt";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -45,16 +53,26 @@ interface ProductHeaderTableProps {
 interface GetProductParams {
   search?: string;
   sortBy?: string;
-  orderBy?: "asc" | "desc";
+  order?: "asc" | "desc";
   page?: number;
   limit?: number;
 }
 
-interface InputSearchProps{
-  value:string,
-  onChange:(value:string)=>void
+interface InputSearchProps {
+  value: string;
+  onChange: (value: string) => void;
 }
 
+interface SelectSortTableProps<T extends string = string> {
+  value: T;
+  options: OptionsSelect<T>[];
+  onChange: (value: T) => void;
+}
+
+interface OptionsSelect<T extends string = string> {
+  label: string;
+  value: T;
+}
 export type {
   ProductResponse,
   ColumnData,
@@ -62,5 +80,7 @@ export type {
   ProductTableProps,
   ProductHeaderTableProps,
   GetProductParams,
-  InputSearchProps
+  InputSearchProps,
+  SelectSortTableProps,
+  OptionsSelect,
 };

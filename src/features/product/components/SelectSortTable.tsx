@@ -1,30 +1,26 @@
-import * as React from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { type SelectChangeEvent } from '@mui/material/Select';
-
-export default function SelectLabels() {
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
-
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { type SelectChangeEvent } from "@mui/material/Select";
+import type { SelectSortTableProps } from "../type";
+export default function SelectSortTable<T extends string>({
+  value,
+  options,
+  onChange,
+}: SelectSortTableProps<T>) {
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
         <Select
-          value={age}
-          onChange={handleChange}
+          value={value}
+          onChange={(e: SelectChangeEvent) => onChange(e.target.value as T)}
           displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
+          inputProps={{ "aria-label": "Without label" }}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {options.map((item, index) => (
+            <MenuItem value={item.value} key={index}>
+              {item.label}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

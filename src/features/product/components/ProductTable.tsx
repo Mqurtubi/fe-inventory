@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import type{ ColumnData } from "../type";
+import type { ColumnData, OptionsSelect } from "../type";
 import useProduct from "../hooks/useProduct";
 import { Grid } from "@mui/material";
 import InputSearchTable from "./InputSearchTable";
@@ -26,7 +26,8 @@ const columns: readonly ColumnData[] = [
     label: "Price",
     minWidth: 100,
     align: "right",
-    format: (value) => typeof value == "number"?`Rp. ${value.toLocaleString("id-ID")}`:"",
+    format: (value) =>
+      typeof value == "number" ? `Rp. ${value.toLocaleString("id-ID")}` : "",
   },
   {
     id: "currentStock",
@@ -37,20 +38,62 @@ const columns: readonly ColumnData[] = [
     id: "createdAt",
     label: "Created At",
     minWidth: 100,
-    format: (value) => typeof value == "string"? new Date(value).toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"}):"-"
+    format: (value) =>
+      typeof value == "string"
+        ? new Date(value).toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })
+        : "-",
   },
   {
     id: "updatedAt",
     label: "Updated At",
     minWidth: 100,
-    format: (value) => typeof value == "string"? new Date(value).toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"}):"-"
+    format: (value) =>
+      typeof value == "string"
+        ? new Date(value).toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })
+        : "-",
   },
 ];
 
+type SortBy = "createdAt" | "name" | "updatedAt";
+const optionsSortBy: OptionsSelect<SortBy>[] = [
+  {
+    label: "Created",
+    value: "createdAt",
+  },
+  {
+    label: "Name",
+    value: "name",
+  },
+  {
+    label: "Updated",
+    value: "updatedAt",
+  },
+];
+
+type OrderBy = "desc" | "asc";
+const optionsOrderBy: OptionsSelect<OrderBy>[] = [
+  {
+    label: "DESC",
+    value: "desc",
+  },
+  {
+    label: "ASC",
+    value: "asc",
+  },
+];
 export default function ProductTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const {products, search, setSearch}=useProduct()
+  const { products, search, setSearch, sortBy, setSortBy, order, setOrder } =
+    useProduct();
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -63,13 +106,26 @@ export default function ProductTable() {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", paddingTop:"10px" }}>
-      <Grid container spacing={2} sx={{paddingX:"10px",alignItems:"center"}}>
+    <Paper sx={{ width: "100%", overflow: "hidden", paddingTop: "10px" }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ paddingX: "10px", alignItems: "center" }}
+      >
         <Grid size={8}>
-          <InputSearchTable value={search} onChange={setSearch}/>
+          <InputSearchTable value={search} onChange={setSearch} />
         </Grid>
-        <Grid size={2}>
-          <SelectSortTable/>
+        <Grid size={2} sx={{ display: "flex" }}>
+          <SelectSortTable<"createdAt" | "name" | "updatedAt">
+            value={sortBy}
+            onChange={setSortBy}
+            options={optionsSortBy}
+          />
+          <SelectSortTable<"asc" | "desc">
+            value={order}
+            onChange={setOrder}
+            options={optionsOrderBy}
+          />
         </Grid>
       </Grid>
       <TableContainer sx={{ maxHeight: 440 }}>

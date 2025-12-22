@@ -5,6 +5,10 @@ import useDebounce from "../../../hooks/useDebounce";
 
 export default function useProduct() {
   const [products, setProducts] = useState<Data[]>([]);
+  const [sortBy, setSortBy] = useState<"createdAt" | "name" | "updatedAt">(
+    "createdAt"
+  );
+  const [order, setOrder] = useState<"asc" | "desc">("desc");
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -13,7 +17,11 @@ export default function useProduct() {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const productsResponse = await getProducts({ search: debounceSearch });
+        const productsResponse = await getProducts({
+          search: debounceSearch,
+          sortBy,
+          order,
+        });
         setProducts(productsResponse.data.data.data);
       } catch (error) {
         console.log(error);
@@ -22,7 +30,16 @@ export default function useProduct() {
       }
     };
     fetchProduct();
-  }, [debounceSearch]);
+  }, [debounceSearch, sortBy, order]);
 
-  return { loading, products, search, setSearch };
+  return {
+    loading,
+    products,
+    search,
+    setSearch,
+    sortBy,
+    setSortBy,
+    order,
+    setOrder,
+  };
 }
