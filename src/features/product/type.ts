@@ -19,12 +19,14 @@ interface Data {
   updatedAt: string;
 }
 
+type CellValue = string | number | boolean | null | undefined
+
 interface ColumnData {
-  dataKey: keyof Data;
+  id: "sku" | "name" | "description" | "price" | "isActive" | "currentStock" | "createdAt" | "updatedAt";
   label: string;
-  numeric?: boolean;
-  width?: number;
-  render?: (row: Data) => React.ReactNode;
+  minWidth?: number;
+  align?: "right";
+  format?: (value: CellValue) => string;
 }
 
 interface ProductTableProps {
@@ -47,6 +49,12 @@ interface GetProductParams {
   page?: number;
   limit?: number;
 }
+
+interface InputSearchProps{
+  value:string,
+  onChange:(value:string)=>void
+}
+
 export type {
   ProductResponse,
   ColumnData,
@@ -54,4 +62,5 @@ export type {
   ProductTableProps,
   ProductHeaderTableProps,
   GetProductParams,
+  InputSearchProps
 };
