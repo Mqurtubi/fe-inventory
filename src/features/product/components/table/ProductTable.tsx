@@ -7,11 +7,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import type { ColumnData, OptionsSelect } from "../type";
-import useProduct from "../hooks/useProduct";
+import type { ColumnData, OptionsSelect, ProductTableProps } from "../../type";
 import { Grid } from "@mui/material";
-import InputSearchTable from "./InputSearchTable";
-import SelectSortTable from "./SelectSortTable";
+import InputSearchTable from "../filters/InputSearchTable";
+import SelectSortTable from "../filters/SelectSortTable";
 
 const columns: readonly ColumnData[] = [
   { id: "sku", label: "SKU", minWidth: 170 },
@@ -89,11 +88,9 @@ const optionsOrderBy: OptionsSelect<OrderBy>[] = [
     value: "asc",
   },
 ];
-export default function ProductTable() {
+export default function ProductTable({products, search, setSearch, sortBy, setSortBy, order, setOrder}:ProductTableProps) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const { products, search, setSearch, sortBy, setSortBy, order, setOrder } =
-    useProduct();
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };

@@ -1,7 +1,7 @@
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
-import type { SelectSortTableProps } from "../type";
+import type { SelectSortTableProps } from "../../type";
 export default function SelectSortTable<T extends string>({
   value,
   options,

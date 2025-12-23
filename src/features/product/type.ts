@@ -33,15 +33,21 @@ interface ColumnData {
     | "updatedAt";
   label: string;
   minWidth?: number;
-  align?: "right";
+  dataKey?: keyof Data;
+  numeric?: boolean;
+  render?: (row: Data) => React.ReactNode;
   format?: (value: CellValue) => string;
+  align?: 'left' | 'center' | 'right' | 'justify'
 }
 
 interface ProductTableProps {
-  product: Data[];
-  loading: boolean;
-  value: string;
-  onChange: (value: string) => void;
+  products:Data[],
+  search:string,
+  setSearch:(value:string)=>void,
+  sortBy:"createdAt" | "name" | "updatedAt"
+  setSortBy:(value:string)=>void,
+  order:"asc" | "desc"
+  setOrder:(value:string)=>void
 }
 
 interface ProductHeaderTableProps {
@@ -73,6 +79,23 @@ interface OptionsSelect<T extends string = string> {
   label: string;
   value: T;
 }
+
+interface ProductFormValues{
+  name:string,
+  description?:string,
+  currentStock:number,
+  price:number
+}
+
+interface FormDialogProps{
+  open:boolean,
+  handleClose:()=>void,
+  onSuccess:(value:Data)=>void
+}
+
+interface ProductHeaderProps{
+  handleClick:()=>void
+}
 export type {
   ProductResponse,
   ColumnData,
@@ -83,4 +106,7 @@ export type {
   InputSearchProps,
   SelectSortTableProps,
   OptionsSelect,
+  ProductFormValues,
+  FormDialogProps,
+  ProductHeaderProps
 };

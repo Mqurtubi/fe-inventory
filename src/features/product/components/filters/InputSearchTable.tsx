@@ -1,5 +1,5 @@
 import Input from "@mui/material/Input";
-import type { InputSearchProps } from "../type";
+import type { InputSearchProps } from "../../type";
 
 export default function InputSearchTable({
   value,

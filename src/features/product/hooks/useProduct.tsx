@@ -13,6 +13,10 @@ export default function useProduct() {
   const [search, setSearch] = useState("");
 
   const debounceSearch = useDebounce(search, 600);
+
+  const addProduct = (product:Data)=>{
+    setProducts((prev)=>[product,...prev])
+  }
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
@@ -41,5 +45,6 @@ export default function useProduct() {
     setSortBy,
     order,
     setOrder,
+    addProduct
   };
 }

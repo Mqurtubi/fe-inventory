@@ -1,6 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-export default function ProductHeader() {
+import type { ProductHeaderProps } from "../type";
+export default function ProductHeader({handleClick}:ProductHeaderProps) {
   return (
     <Box
       sx={{
@@ -21,6 +22,7 @@ export default function ProductHeader() {
         size="medium"
         sx={{ whiteSpace: "nowrap" }}
         startIcon={<AddRoundedIcon />}
+        onClick={handleClick}
       >
         Create Product
       </Button>
