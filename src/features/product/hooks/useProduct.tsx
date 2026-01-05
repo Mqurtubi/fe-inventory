@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getProducts } from "../api";
 import type { Data } from "../type";
 import useDebounce from "../../../hooks/useDebounce";
@@ -9,32 +9,36 @@ export default function useProduct() {
     "createdAt"
   );
   const [order, setOrder] = useState<"asc" | "desc">("desc");
+  const [status, setStatus] = useState<"all" | "active" | "archived">("all");
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
   const debounceSearch = useDebounce(search, 600);
 
-  const addProduct = (product:Data)=>{
-    setProducts((prev)=>[product,...prev])
-  }
-  useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      try {
-        const productsResponse = await getProducts({
-          search: debounceSearch,
-          sortBy,
-          order,
-        });
-        setProducts(productsResponse.data.data.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const addProduct = () => {
     fetchProduct();
-  }, [debounceSearch, sortBy, order]);
+  };
+  const fetchProduct = useCallback(async () => {
+    setLoading(true);
+    try {
+      const productsResponse = await getProducts({
+        search: debounceSearch,
+        sortBy,
+        order,
+        isActive:
+          status === "all" ? undefined : status === "active" ? true : false,
+      });
+      setProducts(productsResponse.data.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [debounceSearch, sortBy, order, status]);
+
+  useEffect(() => {
+    fetchProduct();
+  }, [fetchProduct]);
 
   return {
     loading,
@@ -45,6 +49,9 @@ export default function useProduct() {
     setSortBy,
     order,
     setOrder,
-    addProduct
+    addProduct,
+    status,
+    setStatus,
+    fetchProduct,
   };
 }
