@@ -20,7 +20,7 @@ interface ColumnsData {
   type?: string;
 }
 
-interface AppTableProps<T extends { id: string }> {
+interface AppTableProps<T extends { id: string; isActive: boolean }> {
   data: T[];
   columns: ColumnsData[];
   handleDelete?: (value: string) => void;

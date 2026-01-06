@@ -13,7 +13,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import { useState } from "react";
 import type { AppTableProps } from "./type";
-export default function AppTable<T>({
+export default function AppTable<T extends { id: string }>({
   data,
   columns,
   handleDelete,
