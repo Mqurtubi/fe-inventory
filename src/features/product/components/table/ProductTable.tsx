@@ -8,12 +8,10 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import type { ColumnData, OptionsSelect, ProductTableProps } from "../../type";
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import InputSearchTable from "../filters/InputSearchTable";
 import SelectSortTable from "../filters/SelectSortTable";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import UnarchiveIcon from "@mui/icons-material/Unarchive";
+import RowContent from "./RowContent";
 const columns: readonly ColumnData[] = [
   { id: "sku", label: "SKU", minWidth: 170 },
   { id: "name", label: "Name", minWidth: 100 },
@@ -175,42 +173,7 @@ export default function ProductTable({
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    {columns.map((column) => {
-                      if (column.type === "action") {
-                        return (
-                          <TableCell key={column.id} align="center">
-                            <Button
-                              onClick={() => handleUpdate(row)}
-                              color="inherit"
-                            >
-                              <ModeEditIcon />
-                            </Button>
-                            <Button
-                              color={row.isActive ? "error" : "success"}
-                              onClick={() =>
-                                row.isActive
-                                  ? handleDelete(row.id)
-                                  : handleActive(row.id)
-                              }
-                            >
-                              {row.isActive ? (
-                                <ArchiveIcon />
-                              ) : (
-                                <UnarchiveIcon />
-                              )}
-                            </Button>
-                          </TableCell>
-                        );
-                      }
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format ? column.format(value) : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                  <RowContent row={row} columns={columns} handleActive={()=>handleActive(row.id)} handleDelete={()=>handleDelete(row.id)} handleUpdate={()=>handleUpdate(row)}/>
                 );
               })}
           </TableBody>

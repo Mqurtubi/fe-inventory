@@ -65,7 +65,13 @@ interface ProductHeaderTableProps {
   value: string;
   onChange: (value: string) => void;
 }
-
+interface RowContentProps {
+  row: Data;
+  columns: readonly ColumnData[];
+  handleDelete: (value: string) => void;
+  handleActive: (value: string) => void;
+  handleUpdate: (value: SelectedProduct) => void;
+}
 interface GetProductParams {
   search?: string;
   sortBy?: string;
@@ -130,4 +136,5 @@ export type {
   FormDialogProps,
   ProductHeaderProps,
   SelectedProduct,
+  RowContentProps
 };

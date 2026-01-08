@@ -49,7 +49,7 @@ export default function ProductPage() {
     await fetchProduct();
   };
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 mx-5">
       <ProductHeader handleClick={handleClickOpen} />
       <ProductTable
         products={products}
