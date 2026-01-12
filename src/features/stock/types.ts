@@ -1,11 +1,57 @@
-interface StockResponse {
+import type { ReactNode } from "react";
+
+interface ColumnData {
+  id: "type" | "product" | "qty" | "user" | "note" | "createdAt";
+  label: string;
+  minWidth?: number;
+  numeric?: boolean;
+  format?: (value: CellValue) => ReactNode;
+  align?: "left" | "center" | "right" | "justify";
+  type?: string;
+}
+type CellValue = string | number | boolean | null | undefined;
+
+interface RowContentProps {
+  row: StockData;
+  columns: readonly ColumnData[];
+}
+
+interface StockTableProps {
+  stock: StockData[];
+}
+
+interface StockData {
   id: string;
-  productId: string;
   note: string;
   qty: number;
-  type: string;
+  productId: string;
+  type: MovementType;
   userId: string;
   createdAt: string;
 }
+interface SelectProductProps<T extends string> {
+  value: string;
+  product: Product[];
+  handleChange: (value: T) => void;
+}
 
-export type { StockResponse };
+interface StockValue {
+  productId: string;
+  qty: number;
+  note?: string;
+}
+
+interface Product {
+  id: string;
+  name: string;
+}
+type MovementType = "in" | "out" | "adjust";
+export type {
+  SelectProductProps,
+  MovementType,
+  StockValue,
+  ColumnData,
+  RowContentProps,
+  StockTableProps,
+  StockData,
+};

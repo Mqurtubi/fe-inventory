@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getStocks } from "../api";
-import type { StockResponse } from "../types";
+import type { StockData } from "../types";
 export default function useStock() {
-  const [stocks, setStocks] = useState<StockResponse | null>(null);
+  const [stocks, setStocks] = useState<StockData | []>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

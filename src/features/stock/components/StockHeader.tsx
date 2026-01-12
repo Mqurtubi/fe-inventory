@@ -9,8 +9,10 @@ export default function StockHeader() {
       }}
     >
       <Box>
-        <Typography variant="h6">Stock Management</Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="h4" fontWeight={600}>
+          Stock Management
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
           Track and manage inventory movements
         </Typography>
       </Box>
