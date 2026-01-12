@@ -126,7 +126,14 @@ export default function ProductTable({
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", paddingTop: "10px" }}>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        paddingTop: "10px",
+        borderRadius: "16px",
+      }}
+    >
       <Grid
         container
         spacing={2}
@@ -153,7 +160,7 @@ export default function ProductTable({
           />
         </Grid>
       </Grid>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 550 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -161,7 +168,13 @@ export default function ProductTable({
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{
+                    minWidth: column.minWidth,
+                    backgroundColor: "#F9FAFB",
+                    fontWeight: 600,
+                    color: "#374151",
+                    fontSize: "18px",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -173,7 +186,13 @@ export default function ProductTable({
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <RowContent row={row} columns={columns} handleActive={()=>handleActive(row.id)} handleDelete={()=>handleDelete(row.id)} handleUpdate={()=>handleUpdate(row)}/>
+                  <RowContent
+                    row={row}
+                    columns={columns}
+                    handleActive={() => handleActive(row.id)}
+                    handleDelete={() => handleDelete(row.id)}
+                    handleUpdate={() => handleUpdate(row)}
+                  />
                 );
               })}
           </TableBody>

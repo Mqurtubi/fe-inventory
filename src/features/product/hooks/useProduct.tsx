@@ -1,57 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
-import { getProducts } from "../api";
-import type { Data } from "../type";
-import useDebounce from "../../../hooks/useDebounce";
-
+import useProductFilter from "./useProductFilter";
+import useProductQuery from "./useProductQuery";
+import { activeProduct, deleteProduct } from "../api";
+import { useMemo } from "react";
 export default function useProduct() {
-  const [products, setProducts] = useState<Data[]>([]);
-  const [sortBy, setSortBy] = useState<"createdAt" | "name" | "updatedAt">(
-    "createdAt"
+  const filter = useProductFilter();
+
+  const queryParams = useMemo(
+    () => ({
+      search: filter.debounceSearch || undefined,
+      sortBy: filter.sortBy,
+      order: filter.order,
+      isActive:
+        filter.status === "all" ? undefined : filter.status === "active",
+    }),
+    [filter.debounceSearch, filter.sortBy, filter.order, filter.status]
   );
-  const [order, setOrder] = useState<"asc" | "desc">("desc");
-  const [status, setStatus] = useState<"all" | "active" | "archived">("all");
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
 
-  const debounceSearch = useDebounce(search, 600);
+  const query = useProductQuery(queryParams);
 
-  const addProduct = () => {
-    fetchProduct();
+  const activeProducts = useMemo(
+    () => query.products.filter((p) => p.isActive),
+    [query.products]
+  );
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
+    query.refetch();
   };
-  const fetchProduct = useCallback(async () => {
-    setLoading(true);
-    try {
-      const productsResponse = await getProducts({
-        search: debounceSearch,
-        sortBy,
-        order,
-        isActive:
-          status === "all" ? undefined : status === "active" ? true : false,
-      });
-      setProducts(productsResponse.data.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [debounceSearch, sortBy, order, status]);
 
-  useEffect(() => {
-    fetchProduct();
-  }, [fetchProduct]);
-
+  const handleActive = async (id: string) => {
+    await activeProduct(id);
+    query.refetch();
+  };
   return {
-    loading,
-    products,
-    search,
-    setSearch,
-    sortBy,
-    setSortBy,
-    order,
-    setOrder,
-    addProduct,
-    status,
-    setStatus,
-    fetchProduct,
+    products: query.products,
+    loading: query.loading,
+    refetchProducts: query.refetch,
+    ...filter,
+    handleDelete,
+    handleActive,
+    activeProducts,
   };
 }

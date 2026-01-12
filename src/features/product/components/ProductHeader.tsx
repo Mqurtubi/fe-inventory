@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import type { ProductHeaderProps } from "../type";
-export default function ProductHeader({handleClick}:ProductHeaderProps) {
+export default function ProductHeader({ handleClick }: ProductHeaderProps) {
   return (
     <Box
       sx={{
@@ -11,8 +11,10 @@ export default function ProductHeader({handleClick}:ProductHeaderProps) {
       }}
     >
       <Box>
-        <Typography variant="h6">Products</Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="h4" fontWeight={600}>
+          Products
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
           Manage your product
         </Typography>
       </Box>

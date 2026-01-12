@@ -3,7 +3,6 @@ import ProductHeader from "../components/ProductHeader";
 import { useState } from "react";
 import FormCreateDialog from "../components/modals/FormCreateDialog";
 import useProduct from "../hooks/useProduct";
-import { deleteProduct, activeProduct } from "../api";
 import FormUpdateDialog from "../components/modals/FormUpdateDialog";
 import type { SelectedProduct } from "../type";
 export default function ProductPage() {
@@ -19,38 +18,15 @@ export default function ProductPage() {
     setSortBy,
     order,
     setOrder,
-    addProduct,
     status,
     setStatus,
-    fetchProduct,
+    handleActive,
+    handleDelete,
+    refetchProducts,
   } = useProduct();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClickOpenUpdate = (product: SelectedProduct) => {
-    setSelectedProduct(product);
-    setOpenUpdate(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleCloseUpdate = () => {
-    setOpenUpdate(false);
-  };
-  const handleDelete = async (id: string) => {
-    await deleteProduct(id);
-    await fetchProduct();
-  };
-
-  const handleActive = async (id: string) => {
-    await activeProduct(id);
-    await fetchProduct();
-  };
   return (
     <div className="space-y-5 mx-5">
-      <ProductHeader handleClick={handleClickOpen} />
+      <ProductHeader handleClick={() => setOpen(true)} />
       <ProductTable
         products={products}
         search={search}
@@ -63,17 +39,20 @@ export default function ProductPage() {
         handleActive={handleActive}
         status={status}
         setStatus={setStatus}
-        handleUpdate={handleClickOpenUpdate}
+        handleUpdate={(product: SelectedProduct) => {
+          setSelectedProduct(product);
+          setOpenUpdate(true);
+        }}
       />
       <FormCreateDialog
         open={open}
-        handleClose={handleClose}
-        onSuccess={addProduct}
+        handleClose={() => setOpen(false)}
+        onSuccess={refetchProducts}
       />
       <FormUpdateDialog
         open={openUpdate}
-        handleClose={handleCloseUpdate}
-        onSuccess={addProduct}
+        handleClose={() => setOpenUpdate(false)}
+        onSuccess={refetchProducts}
         product={selectedProduct}
       />
     </div>

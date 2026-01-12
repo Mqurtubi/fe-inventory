@@ -122,6 +122,16 @@ interface FormDialogProps {
 interface ProductHeaderProps {
   handleClick: () => void;
 }
+export type SortBy = "createdAt" | "name" | "updatedAt";
+export type OrderBy = "asc" | "desc";
+export type StatusBy = "all" | "active" | "archived";
+
+export interface ProductQueryParams {
+  search?: string;
+  sortBy?: SortBy;
+  order?: OrderBy;
+  isActive?: boolean;
+}
 export type {
   ProductResponse,
   ColumnData,
@@ -136,5 +146,5 @@ export type {
   FormDialogProps,
   ProductHeaderProps,
   SelectedProduct,
-  RowContentProps
+  RowContentProps,
 };
