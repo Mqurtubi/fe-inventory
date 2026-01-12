@@ -249,7 +249,16 @@ export default function DashboardLayout() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, px: 3, py: 12 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          px: 3,
+          py: 12,
+          backgroundColor: "#F8F9FC",
+          height: "100vh",
+        }}
+      >
         <Outlet />
       </Box>
     </Box>
