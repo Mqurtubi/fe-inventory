@@ -35,6 +35,10 @@ interface SelectProductProps<T extends string> {
   handleChange: (value: T) => void;
 }
 
+interface StockFormProps{
+  onSuccess:(value:StockData)=>void
+}
+
 interface StockValue {
   productId: string;
   qty: number;
@@ -54,4 +58,5 @@ export type {
   RowContentProps,
   StockTableProps,
   StockData,
+  StockFormProps
 };

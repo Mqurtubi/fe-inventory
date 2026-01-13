@@ -15,7 +15,6 @@ function App() {
         const userResponse = await me();
         dispatch(setUser(userResponse.data.data));
       } catch (error) {
-        navigate("/login");
         console.log(error);
         dispatch(clearUser());
       }

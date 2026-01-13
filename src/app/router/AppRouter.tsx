@@ -12,7 +12,13 @@ export default function AppRouter() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/" element={<DashboardLayout />}>
+
+      <Route path="/" element={
+          <ProtectedRoute roles={["ADMIN", "STAFF", "VIEWER"]}>
+          <DashboardLayout />
+          </ProtectedRoute>
+        }
+        >
         <Route
           path="/product"
           element={

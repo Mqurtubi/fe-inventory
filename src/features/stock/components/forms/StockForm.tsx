@@ -8,8 +8,9 @@ import SelectProduct from "../filters/SelectProduct";
 import useProduct from "../../../product/hooks/useProduct";
 import useCreateStock from "../../hooks/useCreateStock";
 import { inStock, outStock, adjustStock } from "../../api";
+import type { StockFormProps } from "../../types";
 
-export default function StockForm() {
+export default function StockForm({onSuccess}:StockFormProps) {
   const { activeProducts } = useProduct();
   const { form, handleChange, setProductId, setType, resetForm } =
     useCreateStock();
@@ -29,7 +30,8 @@ export default function StockForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await submitByType();
+      const responseStock=await submitByType();
+      onSuccess(responseStock)
       resetForm();
     } catch (err) {
       console.error(err);

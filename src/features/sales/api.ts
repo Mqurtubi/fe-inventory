@@ -5,4 +5,9 @@ const getSales = async () => {
   return salesResponse;
 };
 
-export { getSales };
+const createSales = async (params) => {
+  const salesResponse = await http.post("/sales",params)
+  return salesResponse
+}
+
+export { getSales, createSales };

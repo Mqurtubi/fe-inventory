@@ -22,7 +22,7 @@ export default function LoginPage() {
       await login(data);
       const userResponse = await me();
       dispatch(setUser(userResponse.data.data));
-      navigate("/product");
+      navigate("/product",{replace:true});
     } catch (error) {
       console.log(error);
     }

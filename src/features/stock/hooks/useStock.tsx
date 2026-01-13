@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getStocks } from "../api";
 import type { StockData } from "../types";
 export default function useStock() {
   const [stocks, setStocks] = useState<StockData | []>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchStock = async () => {
+  const fetchStock = useCallback (async () => {
       setLoading(true);
       try {
         const stocksResponse = await getStocks();
@@ -17,8 +15,9 @@ export default function useStock() {
       } finally {
         setLoading(false);
       }
-    };
+    },[]);
+  useEffect(() => {
     fetchStock();
-  }, []);
-  return { loading, stocks };
+  }, [fetchStock]);
+  return { loading, stocks, refetch:fetchStock };
 }

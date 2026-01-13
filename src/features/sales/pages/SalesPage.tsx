@@ -2,7 +2,6 @@ import { useState } from "react";
 import SalesHeader from "../components/SalesHeader";
 import SalesTable from "../components/table/SalesTable";
 import useSales from "../hooks/useSales";
-import FormCreateDialog from "../components/modals/FormCreateDialog";
 
 export default function SalesPage() {
   const { sales, loading } = useSales();
@@ -12,7 +11,7 @@ export default function SalesPage() {
     <div className="space-y-5 mx-5">
       <SalesHeader handleClick={() => setOpen(true)} />
       <SalesTable sales={sales} />
-      <FormCreateDialog open={open} handleClose={() => setOpen(false)} />
+      
     </div>
   );
 }

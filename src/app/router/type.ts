@@ -2,7 +2,7 @@ import type { JSX } from "react";
 
 interface ProtectedType {
   children: JSX.Element;
-  roles: Role[];
+  roles?: Role[];
 }
 type Role = "ADMIN" | "STAFF" | "VIEWER";
 

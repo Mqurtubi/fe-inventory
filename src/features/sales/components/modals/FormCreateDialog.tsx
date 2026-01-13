@@ -8,15 +8,25 @@ import {
 import React from "react";
 import AppTextField from "../../../../components/ui/AppTextField";
 import useFormSales from "../../hooks/useFormSales";
+import useCreateSales from "../../hooks/useCreateSales";
+
 export default function FormCreateDialog({
-  form,
-  loading,
-  handleChange,
-  handleSubmit,
   open,
   handleClose,
+  onSuccess
 }) {
-  const { form, handleChange, resetForm, setForm } = useFormSales();
+  const { form, handleChange, resetForm} = useFormSales();
+  const {loading,submit}=useCreateSales()
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      const response = await submit(form)
+      onSuccess(response.data.data)
+      resetForm()
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <React.Fragment>
       <Dialog open={open} onClose={handleClose}>

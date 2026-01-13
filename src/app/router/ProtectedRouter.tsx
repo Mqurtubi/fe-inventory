@@ -4,7 +4,7 @@ import type { ProtectedType } from "./type";
 export function ProtectedRoute({ children, roles }: ProtectedType) {
   const { user, loading } = useAppSelector((s) => s.auth);
 
-  if (loading) return null;
+  if (loading) return <p>loading...</p>;
 
   if (!user) return <Navigate to="/login" replace />;
 

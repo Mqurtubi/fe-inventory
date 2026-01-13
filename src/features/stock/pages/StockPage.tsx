@@ -3,7 +3,7 @@ import StockHeader from "../components/StockHeader";
 import useStock from "../hooks/useStock";
 import StockTable from "../components/table/StockTable";
 export default function StockPage() {
-  const { stocks, loading } = useStock();
+  const { stocks, loading, refetch } = useStock();
   if (loading) {
     return <p>loading</p>;
   }
@@ -12,7 +12,7 @@ export default function StockPage() {
       <StockHeader />
       <div className="grid grid-cols-12 gap-5">
         <div className="col-span-4">
-          <StockForm />
+          <StockForm onSuccess={refetch}/>
         </div>
         <div className="col-span-8">
           <StockTable stock={stocks} />
