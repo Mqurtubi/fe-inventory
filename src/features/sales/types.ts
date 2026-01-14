@@ -30,6 +30,33 @@ interface SalesTableProps {
 interface SalesHeaderProps {
   handleClick: () => void;
 }
-type CellValue = string | number | boolean | null | undefined;
 
-export type { SalesResponse, SalesHeaderProps, ColumnData, SalesTableProps };
+interface SaleItem {
+  productId: string;
+  qty: number;
+}
+
+interface SaleItemForm {
+  customer: string;
+  items: SaleItem[];
+}
+type CellValue = string | number | boolean | null | undefined;
+interface SelectProductProps<T extends string> {
+  value: string;
+  product: Product[];
+  handleChange: (value: T) => void;
+}
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+}
+export type {
+  SalesResponse,
+  SalesHeaderProps,
+  ColumnData,
+  SalesTableProps,
+  SaleItemForm,
+  SaleItem,
+  SelectProductProps,
+};
