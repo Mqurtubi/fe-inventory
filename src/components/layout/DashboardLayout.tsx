@@ -26,7 +26,7 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import { logout } from "../../features/auth/api";
 
@@ -147,7 +147,7 @@ export default function DashboardLayout() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const navigate = useNavigate();
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -192,10 +192,9 @@ export default function DashboardLayout() {
               }}
             />
             <UserMenu
-              name="John Doe"
-              role="ADMIN"
               onLogout={async () => {
                 await logout();
+                navigate("/login");
               }}
             />
           </ListItem>

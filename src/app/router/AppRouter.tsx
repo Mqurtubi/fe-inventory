@@ -33,7 +33,7 @@ export default function AppRouter() {
         <Route
           path="product"
           element={
-            <ProtectedRoute roles={["ADMIN"]}>
+            <ProtectedRoute roles={["ADMIN", "STAFF", "VIEWER"]}>
               <ProductPage />
             </ProtectedRoute>
           }
@@ -41,7 +41,7 @@ export default function AppRouter() {
         <Route
           path="stock"
           element={
-            <ProtectedRoute roles={["ADMIN", "STAFF"]}>
+            <ProtectedRoute roles={["ADMIN", "STAFF", "VIEWER"]}>
               <StockPage />
             </ProtectedRoute>
           }

@@ -9,17 +9,16 @@ import {
   Typography,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useAppSelector } from "../../hooks/redux";
 
 interface UserMenuProps {
-  name: string;
-  role: "ADMIN" | "STAFF" | "VIEWER";
   onLogout: () => void;
 }
 
-export default function UserMenu({ name, role, onLogout }: UserMenuProps) {
+export default function UserMenu({ onLogout }: UserMenuProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
+  const { user, loading } = useAppSelector((state) => state.auth);
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -39,19 +38,22 @@ export default function UserMenu({ name, role, onLogout }: UserMenuProps) {
           cursor: "pointer",
         }}
       >
-        <Avatar sx={{ width: 36, height: 36 }}>{name.charAt(0)}</Avatar>
-
-        <Box sx={{ display: { xs: "none", md: "block" } }}>
-          <Typography fontSize={14} fontWeight={500}>
-            {name}
-          </Typography>
-          <Chip
-            label={role}
-            size="small"
-            color={role === "ADMIN" ? "success" : "default"}
-            sx={{ height: 18, fontSize: 11 }}
-          />
-        </Box>
+        <Avatar sx={{ width: 36, height: 36 }}>{user!.name.charAt(0)}</Avatar>
+        {loading ? (
+          <p>loading...</p>
+        ) : (
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
+            <Typography fontSize={14} fontWeight={500}>
+              {user!.name}
+            </Typography>
+            <Chip
+              label={user!.role}
+              size="small"
+              color={user!.role === "ADMIN" ? "success" : "default"}
+              sx={{ height: 18, fontSize: 11 }}
+            />
+          </Box>
+        )}
 
         <IconButton size="small">
           <KeyboardArrowDownIcon />
