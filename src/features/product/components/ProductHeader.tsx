@@ -1,7 +1,9 @@
 import { Box, Typography, Button } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import type { ProductHeaderProps } from "../type";
+import { useAppSelector } from "../../../hooks/redux";
 export default function ProductHeader({ handleClick }: ProductHeaderProps) {
+  const { user } = useAppSelector((s) => s.auth);
   return (
     <Box
       sx={{
@@ -18,16 +20,17 @@ export default function ProductHeader({ handleClick }: ProductHeaderProps) {
           Manage your product
         </Typography>
       </Box>
-
-      <Button
-        variant="contained"
-        size="medium"
-        sx={{ whiteSpace: "nowrap" }}
-        startIcon={<AddRoundedIcon />}
-        onClick={handleClick}
-      >
-        Create Product
-      </Button>
+      {user?.role === "ADMIN" && (
+        <Button
+          variant="contained"
+          size="medium"
+          sx={{ whiteSpace: "nowrap" }}
+          startIcon={<AddRoundedIcon />}
+          onClick={handleClick}
+        >
+          Create Product
+        </Button>
+      )}
     </Box>
   );
 }

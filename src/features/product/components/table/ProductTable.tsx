@@ -12,6 +12,8 @@ import { Grid } from "@mui/material";
 import InputSearchTable from "../filters/InputSearchTable";
 import SelectSortTable from "../filters/SelectSortTable";
 import RowContent from "./RowContent";
+import { useAppSelector } from "../../../../hooks/redux";
+import { useMemo } from "react";
 const columns: readonly ColumnData[] = [
   { id: "sku", label: "SKU", minWidth: 170 },
   { id: "name", label: "Name", minWidth: 100 },
@@ -112,6 +114,7 @@ export default function ProductTable({
   status,
   setStatus,
 }: ProductTableProps) {
+  const { user } = useAppSelector((s) => s.auth);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -119,11 +122,16 @@ export default function ProductTable({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const visibleColumn = useMemo(() => {
+    if (user?.role === "ADMIN") return columns;
+    return columns.filter((col) => col.id !== "action");
+  }, [user]);
 
   return (
     <Paper
@@ -164,7 +172,7 @@ export default function ProductTable({
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {visibleColumn.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
