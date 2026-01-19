@@ -27,6 +27,8 @@ import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { NavLink, Outlet } from "react-router-dom";
+import UserMenu from "./UserMenu";
+import { logout } from "../../features/auth/api";
 
 const drawerWidth = 240;
 
@@ -187,6 +189,13 @@ export default function DashboardLayout() {
                     color: "text.secondary",
                   },
                 },
+              }}
+            />
+            <UserMenu
+              name="John Doe"
+              role="ADMIN"
+              onLogout={async () => {
+                await logout();
               }}
             />
           </ListItem>
