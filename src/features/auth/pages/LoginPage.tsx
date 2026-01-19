@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { login, me } from "../api";
 import { useAppDispatch } from "../../../hooks/redux";
-import { setUser } from "../authSlice";
 import { useNavigate } from "react-router-dom";
+import { loginThunk } from "../loginThunk";
 
 export default function LoginPage() {
   const [data, setData] = useState({
@@ -18,13 +17,9 @@ export default function LoginPage() {
   };
   const handlerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await login(data);
-      const userResponse = await me();
-      dispatch(setUser(userResponse.data.data));
-      navigate("/product",{replace:true});
-    } catch (error) {
-      console.log(error);
+    const result = await dispatch(loginThunk(data));
+    if (loginThunk.fulfilled.match(result)) {
+      navigate("/dashboard", { replace: true });
     }
   };
   return (
