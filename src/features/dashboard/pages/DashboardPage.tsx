@@ -10,14 +10,14 @@ export default function DashboardPage() {
     console.log(data);
   }, [data]);
   return (
-    <div className="space-y-5 mx-5">
+    <div className="space-y-5 mx-5 h-screen " >
       <DashboardHeader />
       {loading ? (
         <p>loading</p>
       ) : (
         <div className="grid gap-5">
           <StatsOverview data={data} />
-          <div className="flex gap-5">
+          <div className="grid grid-cols-6 gap-5">
             <WeeklySalesChart data={data?.weeklySales} />
             <LowStockAlerts data={data?.lowStockItems} />
           </div>

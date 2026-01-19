@@ -20,7 +20,7 @@ export default function WeeklySalesChart({ data }: WeeklySalesChartProps) {
   if (!data?.length) return null;
 
   return (
-    <div className="h-120 w-full bg-white pb-20 pt-5 px-10 space-y-5 border border-slate-300 rounded-2xl ">
+    <div className="h-120 w-full bg-white pb-20 pt-5 px-10 space-y-5 border border-slate-300 rounded-2xl col-span-4">
       <div>
         <p className="text-xl">Sales Overview</p>
         <p className="text-lg text-slate-500">Daily sales for this week</p>

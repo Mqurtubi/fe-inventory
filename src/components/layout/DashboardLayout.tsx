@@ -264,8 +264,6 @@ export default function DashboardLayout() {
           flexGrow: 1,
           px: 3,
           py: 12,
-          backgroundColor: "#F8F9FC",
-          height: "100vh",
         }}
       >
         <Outlet />
