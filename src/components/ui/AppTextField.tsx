@@ -7,6 +7,8 @@ export default function AppTextField({
   value,
   handleChange,
   name,
+  error,
+  helperText,
 }: AppTextFieldProps) {
   return (
     <div>
@@ -18,6 +20,8 @@ export default function AppTextField({
         value={value}
         onChange={handleChange}
         name={name}
+        error={error}
+        helperText={helperText}
       />
     </div>
   );

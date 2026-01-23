@@ -15,6 +15,7 @@ export default function FormCreateDialog({
 }: FormDialogProps) {
   const { form, handleChange, resetForm } = useFormProduct();
   const { loading, submit } = useCreateProduct();
+  const [errors, setErrors] = React.useState<Record<string, string>>({});
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,7 +25,27 @@ export default function FormCreateDialog({
       handleClose();
       resetForm();
     } catch (error) {
-      console.log(error);
+      const apiErrors = error?.response?.data?.errors;
+
+      if (Array.isArray(apiErrors)) {
+        const fieldErrors: Record<string, string> = {};
+
+        apiErrors.forEach((err) => {
+          const field = err.path?.[0];
+          if (!field) return;
+
+          if (err.code === "too_small") {
+            fieldErrors[field] =
+              err.origin === "string"
+                ? "Field tidak boleh kosong"
+                : `Minimal ${err.minimum}`;
+          } else {
+            fieldErrors[field] = "Input tidak valid";
+          }
+        });
+
+        setErrors(fieldErrors);
+      }
     }
   };
 
@@ -48,6 +69,8 @@ export default function FormCreateDialog({
               value={form.name}
               handleChange={handleChange}
               name="name"
+              error={!!errors.name}
+              helperText={errors.name}
             />
             <AppTextField
               label="Description Product"
@@ -58,17 +81,21 @@ export default function FormCreateDialog({
             />
             <AppTextField
               label="Stock Product"
-              type="number"
+              type="text"
               value={form.currentStock}
               handleChange={handleChange}
               name="currentStock"
+              error={!!errors.currentStock}
+              helperText={errors.currentStock}
             />
             <AppTextField
               label="Price Product"
-              type="number"
+              type="text"
               value={form.price}
               handleChange={handleChange}
               name="price"
+              error={!!errors.price}
+              helperText={errors.price}
             />
           </form>
         </DialogContent>
