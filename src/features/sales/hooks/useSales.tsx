@@ -1,25 +1,22 @@
-import { useCallback, useEffect, useState } from "react";
-import { getSales } from "../api";
-import type { SalesResponse } from "../types";
+import { useMemo } from "react";
 
+import useSalesQuery from "./useSalesQuery";
+import useSalesFilter from "./useSalesFilter";
 export default function useSales() {
-  const [sales, setSales] = useState<SalesResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const filter = useSalesFilter();
 
-  const fetchSales = useCallback(async () => {
-    setLoading(true);
-    try {
-      const salesResponse = await getSales();
-      console.log(salesResponse.data);
-      setSales(salesResponse.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-  useEffect(() => {
-    fetchSales();
-  }, [fetchSales]);
-  return { sales, loading, refetch: fetchSales };
+  const search = useMemo(
+    () =>
+      filter.debounceSearch?.trim() !== "" ? filter.debounceSearch : undefined,
+    [filter.debounceSearch],
+  );
+
+  const query = useSalesQuery(search);
+
+  return {
+    sales: query.sales,
+    loading: query.loading,
+    refetch: query.refetch,
+    ...filter,
+  };
 }

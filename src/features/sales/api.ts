@@ -1,8 +1,10 @@
 import { http } from "../../services/http";
 import type { SaleItemForm } from "./types";
 
-const getSales = async () => {
-  const salesResponse = await http.get("/sales");
+const getSales = async (search?: string) => {
+  const salesResponse = await http.get("/sales", {
+    params: search ? { search } : {},
+  });
   return salesResponse;
 };
 

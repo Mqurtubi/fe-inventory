@@ -7,7 +7,7 @@ import DetailSaleDialog from "../components/modals/DetailSaleDialog";
 import useDetailSales from "../hooks/useDetailSales";
 
 export default function SalesPage() {
-  const { sales, loading, refetch } = useSales();
+  const { sales, loading, refetch, search, setSearch } = useSales();
   const [open, setOpen] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
   const [selectedSaleId, setSelectedSaleId] = useState("");
@@ -17,8 +17,6 @@ export default function SalesPage() {
       console.log("DETAIL SALE:", data);
     }
   }, [data]);
-  if (loading) return <p>loading...</p>;
-
   return (
     <div className="space-y-5 mx-5">
       <SalesHeader handleClick={() => setOpen(true)} />
@@ -30,6 +28,8 @@ export default function SalesPage() {
           console.log(data);
           setOpenDetail(true);
         }}
+        search={search}
+        setSearch={setSearch}
       />
       <FormCreateDialog
         open={open}

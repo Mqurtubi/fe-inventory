@@ -57,7 +57,7 @@ export default function SalesTable({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -79,7 +79,7 @@ export default function SalesTable({
           variant="outlined"
           fullWidth
           value={search}
-          onChange={setSearch}
+          onChange={(e) => setSearch(e.target.value)}
           slotProps={{
             input: {
               startAdornment: (
